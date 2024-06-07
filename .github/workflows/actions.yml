@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout Repo Content
         uses: actions/checkout@v2 # checkout the repository content to github runner
 
@@ -30,6 +29,9 @@ jobs:
 
       - name: Execute Notebook and Save in Reports Folder
         working-directory: ./notebooks/2_Strategies/1_Bollinger
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
         run: |
           current_date_time=$(date +'%Y-%m-%d_%H%M')
           year=$(date +'%Y')
