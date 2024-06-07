@@ -22,6 +22,10 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Set environment variables
+        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+        run: echo "API_SECRET=${{ secrets.API_SECRET }}" >> $GITHUB_ENV
+        
       - name: Execute Notebook and Save in Reports Folder
         working-directory: ./notebooks/2_Strategies/1_Bollinger
         run: |
