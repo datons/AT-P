@@ -1,0 +1,40 @@
+name: run main.py
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # At 00:00 on Monday
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Repo Content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' # install the python version needed
+          cache: 'pip' # caching the pip packages
+          
+      - name: Install Python Packages (Libraries)
+        run: |
+          pip install -r requirements.txt
+
+      - name: Execute Notebook and Save in Reports Folder
+        working-directory: ./notebooks/2_Strategies/1_Bollinger
+        run: |
+          current_date_time=$(date +'%Y-%m-%d_%H%M')
+          year=$(date +'%Y')
+          month=$(date +'%m')
+          mkdir -p reports/$year/$month
+          papermill B.ipynb reports/$year/$month/${current_date_time}.ipynb 
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add -A
+          git commit -m "Updated report on `date` with GitHub Actions"
+          git push origin main

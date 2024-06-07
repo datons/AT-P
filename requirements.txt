@@ -1,0 +1,8 @@
+requests
+alpaca-py
+pandas
+matplotlib
+jupyter
+nbconvert
+ipykernel
+papermill
