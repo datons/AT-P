@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: paper
     steps:
       - name: Checkout Repo Content
         uses: actions/checkout@v2
