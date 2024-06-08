@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write  # Grant write permission to GitHub Actions
+  issues: write  # Grant write permission for issues
 
 jobs:
   build:
