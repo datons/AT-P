@@ -36,6 +36,7 @@ jobs:
       - name: Install Python packages (aka, libraries or dependencies)
         run: |
           pip install -r requirements.txt
+          pip install requests  # Install requests library
 
       - name: Debug environment variables
         run: |
@@ -68,16 +69,9 @@ jobs:
           git push
 
       - name: Create issue with report link
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const currentDate = new Date().toISOString().split('T')[0];
-            const reportUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/notebooks/2_Strategies/1_Bollinger/reports/${currentDate.split('-')[0]}/${currentDate.split('-')[1]}/${currentDate}_${context.runId}.ipynb`;
-            const { data: issue } = await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Daily Report for ${currentDate}`,
-              body: `The daily report has been generated. You can view it [here](${reportUrl}).`,
-            });
-            console.log(`Created issue #${issue.number}`);
+        run: python create_issue.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
