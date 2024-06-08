@@ -68,8 +68,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context } = require('@actions/github');
-            const github = require('@actions/github');
             const currentDate = new Date().toISOString().split('T')[0];
             const reportUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/notebooks/2_Strategies/1_Bollinger/reports/${currentDate.split('-')[0]}/${currentDate.split('-')[1]}/${currentDate}_${context.runId}.ipynb`;
             const { data: issue } = await github.rest.issues.create({
