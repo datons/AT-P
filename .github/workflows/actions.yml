@@ -5,6 +5,9 @@ on:
     - cron: '0 9 * * *' # At 09:00 on every day
   workflow_dispatch:
 
+permissions:
+  contents: write  # Grant write permission to GitHub Actions
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,6 +47,8 @@ jobs:
           papermill B.ipynb reports/$year/$month/${current_date_time}.ipynb 
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
@@ -56,9 +61,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const { github, context } = require('@actions/github');
             const currentDate = new Date().toISOString().split('T')[0];
-            const reportUrl = `https://github.com/${{ github.repository }}/blob/main/notebooks/2_Strategies/1_Bollinger/reports/${currentDate.split('-')[0]}/${currentDate.split('-')[1]}/${currentDate}_${{ github.run_id }}.ipynb`;
-            const { data: issue } = await github.issues.create({
+            const reportUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/notebooks/2_Strategies/1_Bollinger/reports/${currentDate.split('-')[0]}/${currentDate.split('-')[1]}/${currentDate}_${context.runId}.ipynb`;
+            const { data: issue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Daily Report for ${currentDate}`,
