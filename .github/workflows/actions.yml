@@ -1,6 +1,9 @@
 name: Run Bollinger Strategy
 
 on:
+  push:
+    branches:
+      - solutions
   schedule:
     - cron: '0 9 * * *' # At 09:00 on every day
   workflow_dispatch:
