@@ -1,7 +1,7 @@
-1. Create a GitHub Actions workflow
-2. Add API credentials to GitHub Secrets
+# Run code from GitHub Actions
 
-## Create report
-
-1. Enable GitHub Actions to read and write permissions
-2. Allow create issues
+1. Push code to GitHub
+2. In the repository settings, create an environment called `paper`
+3. Add the credentials from Alpaca API
+   1. API_KEY
+   2. API_SECRET

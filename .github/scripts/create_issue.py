@@ -9,7 +9,7 @@ def create_github_issue():
     run_id = os.getenv('GITHUB_RUN_ID')
 
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
-    report_url = f"https://github.com/{repo_owner}/{repo_name}/blob/main/notebooks/2_Strategies/1_Bollinger/reports/{current_date.split('-')[0]}/{current_date.split('-')[1]}/{current_date}_{run_id}.ipynb"
+    report_url = f"https://github.com/{repo_owner}/{repo_name}/blob/solutions/notebooks/2_Strategies/1_Bollinger/reports/{current_date.split('-')[0]}/{current_date.split('-')[1]}/{current_date}_{run_id}.ipynb"
     issue_title = f"Daily Report for {current_date}"
     issue_body = f"The daily report has been generated. You can view it [here]({report_url})."
 

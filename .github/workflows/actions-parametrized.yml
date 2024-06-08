@@ -1,0 +1,94 @@
+name: 3 Bollinger strategy parametrized
+
+on:
+  push:
+    branches:
+      - solutions
+  schedule:
+    - cron: '0 9 * * *' # At 09:00 on every day
+  workflow_dispatch:
+    inputs:
+      symbol:
+        description: 'Stock symbol'
+        required: true
+        default: 'NFLX'
+      n_windows:
+        description: 'Number of windows'
+        required: true
+        default: 20
+      k:
+        description: 'K parameter'
+        required: true
+        default: 2
+
+permissions:
+  contents: write  # Grant write permission to GitHub Actions
+  issues: write  # Grant write permission for issues
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: paper
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python packages (aka, libraries or dependencies)
+        run: |
+          pip install -r requirements.txt
+          pip install requests  # Install requests library
+
+      - name: Debug environment variables
+        run: |
+          echo "API_KEY=${{ secrets.API_KEY }}"
+          echo "API_SECRET=${{ secrets.API_SECRET }}"
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+
+      - name: Execute notebook and save in reports folder
+        working-directory: ./notebooks/2_Strategies/1_Bollinger
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+        run: |
+          current_date_time=$(date +'%Y-%m-%d_%H%M')
+          year=$(date +'%Y')
+          month=$(date +'%m')
+          mkdir -p reports/$year/$month
+          papermill B.ipynb reports/$year/$month/${current_date_time}.ipynb \
+            -p symbol ${{ github.event.inputs.symbol }} \
+            -p N_WINDOWS ${{ github.event.inputs.n_windows }} \
+            -p K ${{ github.event.inputs.k }}
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add -A
+          git commit -m "Updated report on `date` with GitHub Actions"
+          git push
+
+      - name: Create issue with report link
+        run: python create_issue.py
+        working-directory: ./.github/scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
