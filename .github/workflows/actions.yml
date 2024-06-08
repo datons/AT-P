@@ -70,6 +70,7 @@ jobs:
 
       - name: Create issue with report link
         run: python create_issue.py
+        working-directory: ./.github/scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
