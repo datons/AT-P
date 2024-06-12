@@ -1,0 +1,62 @@
+- Live trading
+  - Docker
+  - Droplet (DigitalOcean)
+- Platforms ecosystems
+  - Trading
+    - Alpaca
+    - Oanda
+  - Funded accounts
+    - FTMO: https://ftmo.com/en/
+    - TopStep: https://www.topstep.com/
+    - OneUp
+    - Earn2Trade: https://www.earn2trade.com/non-us
+    - The5ers
+  - Competitions
+    - Quantopian
+    - QuantConnect
+    - AlgoTrader
+    - AlgoTrading101
+    - WorldQuant
+      - https://platform.worldquantbrain.com/consultant-program/
+      - https://www.worldquant.com/iqc/
+    - Numerai
+      - https://numer.ai/
+    - TradingView
+      - https://www.tradingview.com/the-leap/
+    - QuantConnect
+      - https://www.quantconnect.com/league/
+    - eToro
+      - https://www.etoro.com/en-us/options/competition/
+    - Darwinex
+      - https://www.darwinex.com/
+    - Kaggle
+    - QuantInsti
+    - QuantStart
+    - 
+  - Paper trading accounts
+  - Live trading accounts
+
+
+
+- Trading platforms
+- Trading APIs
+- Trading Platforms
+  - MetaTrader
+  - NinjaTrader
+  - QuantConnect
+  - Quantopian
+  - Zipline
+  - Backtrader
+  - TradingView
+  - Trading Technologies
+  - Interactive Brokers
+  - DXFeed
+  - Alpaca
+  - Tradier
+  - Polygon
+  - AlgoTrader
+  - QuantRocket
+  - QuantBase
+  - QuantLib
+  - QuantStart
+  - QuantConnect

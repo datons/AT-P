@@ -1,8 +1,8 @@
 name: 2 Bollinger strategy report
 
 on:
-  schedule:
-    - cron: '0 9 * * *' # At 09:00 on every day
+  # schedule:
+  #   - cron: '0 9 * * *' # At 09:00 on every day
   workflow_dispatch:
 
 permissions:
